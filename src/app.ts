@@ -18,6 +18,13 @@ const localStrategy = require("passport-local").Strategy;
 
 const app = express();
 
+function ignoreFavicon(req:any, res:any, next:any) {
+  if (req.originalUrl.includes('favicon.ico')) {
+    res.status(204).end()
+  }
+  next();
+}
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Credentials", "true");
@@ -49,11 +56,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 require("./configPassport")(passport);
 
+
 app.use("/api", routes);
 
 app.get('/', (req, res) => {
   res.send('Well done!');
 })
+app.use(ignoreFavicon);
+
 // Error catching endware.
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   // eslint-disable-line no-unused-vars
