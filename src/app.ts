@@ -9,7 +9,9 @@ import cookieParser from "cookie-parser";
 import bcrypt from "bcrypt"
 import session from "express-session";
 import bodyParser from "body-parser";
-const PORT = process.env.PORT || 3001;
+require('dotenv').config();
+
+
 
 export const db = new PrismaClient();
 
@@ -77,4 +79,5 @@ app.listen(3001, () => {
   console.log("Server listening on port 3001");
 });
 */
-app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
+const port = process.env.PORT || 3001;
+app.listen(port, () => console.log(`Server is listening on port ${port}...`));
